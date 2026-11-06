@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>La Mega Papa</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Nunito:wght@400;600;700&family=Open+Sans:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --naranja: #f7931e;
+      --naranja-claro: #ffb347;
+      --rojo: #c8102e;
+      --rojo-oscuro: #8f0b20;
+      --oscuro: #222222;
+      --crema: #fff6e5;
+      --celeste: #4fb8d6;
+      --azul: #1565c0;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: "Nunito", Arial, sans-serif;
+      background: var(--crema);
+      color: var(--oscuro);
+      line-height: 1.6;
+    }
+
+    h1, h2, h3, .logo-texto {
+      font-family: "Baloo 2", "Arial Black", Arial, sans-serif;
+      line-height: 1.1;
+    }
+
+    section { scroll-margin-top: 90px; }
+
+    /* ---------- MENÚ FLOTANTE ---------- */
+    .menu-flotante {
+      position: fixed;
+      top: 14px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(94%, 980px);
+      z-index: 1000;
+      background: rgba(34, 34, 34, .92);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-radius: 999px;
+      padding: 8px 12px 8px 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, .35);
+      border: 2px solid rgba(247, 147, 30, .6);
+    }
+
+    .menu-flotante .marca {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: #fff;
+    }
+
+    .menu-flotante .marca img {
+      height: 44px;
+      width: 44px;
+      object-fit: cover;
+      border-radius: 50%;
+      background: #7d5f56;
+    }
+
+    .logo-texto {
+      font-size: 20px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: .5px;
+    }
+
+    .menu-flotante ul {
+      list-style: none;
+      display: flex;
+      gap: 4px;
+    }
+
+    .menu-flotante ul a {
+      display: block;
+      padding: 8px 16px;
+      border-radius: 999px;
+      color: #fff;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 15px;
+      transition: background .2s, color .2s;
+    }
+
+    .menu-flotante ul a:hover { background: rgba(255, 255, 255, .15); }
+
+    .menu-flotante ul a.activo {
+      background: var(--naranja);
+      color: var(--oscuro);
+    }
+
+    .hamburguesa {
+      display: none;
+      background: var(--naranja);
+      border: none;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      font-size: 22px;
+      cursor: pointer;
+      color: var(--oscuro);
+    }
+
+    /* ---------- INICIO ---------- */
+    .hero {
+      min-height: 100vh;
+      padding: 130px 20px 70px;
+      background:
+        radial-gradient(circle at 15% 20%, rgba(255, 255, 255, .18) 0 8%, transparent 9%),
+        radial-gradient(circle at 85% 75%, rgba(255, 255, 255, .12) 0 10%, transparent 11%),
+        linear-gradient(135deg, var(--naranja) 0%, #f26a1b 55%, var(--rojo) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 50px;
+      flex-wrap: wrap;
+      color: #fff;
+      text-align: left;
+    }
+
+    .hero-texto { max-width: 520px; }
+
+    .etiqueta {
+      display: inline-block;
+      background: var(--oscuro);
+      color: var(--naranja-claro);
+      padding: 6px 16px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 14px;
+      margin-bottom: 18px;
+    }
+
+    .hero h1 {
+      font-family: "Open Sans", Arial, sans-serif;
+      font-size: clamp(34px, 6vw, 56px);
+      font-weight: 700;
+      line-height: 1.2;
+      text-transform: none;
+      text-shadow: none;
+      letter-spacing: 0;
+      margin-bottom: 16px;
+    }
+
+    .hero h1 .typed { color: inherit; }
+
+    .hero h1 .cursor {
+      display: inline-block;
+      width: 3px;
+      height: .9em;
+      margin-left: 4px;
+      background: currentColor;
+      vertical-align: -0.05em;
+      animation: parpadeo 1s steps(1) infinite;
+    }
+
+    @keyframes parpadeo {
+      50% { opacity: 0; }
+    }
+
+    .hero p {
+      font-size: 19px;
+      margin-bottom: 28px;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, .25);
+    }
+
+    .botones { display: flex; gap: 14px; flex-wrap: wrap; }
+
+    .btn {
+      display: inline-block;
+      padding: 14px 30px;
+      border-radius: 999px;
+      font-family: "Baloo 2", Arial, sans-serif;
+      font-weight: 700;
+      font-size: 18px;
+      text-decoration: none;
+      transition: transform .2s, box-shadow .2s;
+    }
+
+    .btn:hover { transform: translateY(-3px); }
+
+    .btn-principal {
+      background: var(--oscuro);
+      color: #fff;
+      box-shadow: 0 6px 0 #000;
+    }
+
+    .btn-secundario {
+      background: #fff;
+      color: var(--rojo);
+      box-shadow: 0 6px 0 rgba(0, 0, 0, .25);
+    }
+
+    .hero-imagen img {
+      width: min(440px, 88vw);
+      border-radius: 28px;
+      border: 6px solid #fff;
+      box-shadow: 0 18px 40px rgba(0, 0, 0, .4);
+      transform: rotate(3deg);
+      display: block;
+      background: var(--naranja-claro);
+    }
+
+    /* ---------- SECCIONES ---------- */
+    .seccion {
+      padding: 90px 20px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .seccion h2 {
+      font-size: clamp(34px, 5vw, 52px);
+      text-align: center;
+      color: var(--rojo);
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .subtitulo {
+      text-align: center;
+      max-width: 560px;
+      margin: 0 auto 44px;
+      color: #5b4a3a;
+    }
+
+    /* ---------- MENÚ DE COMIDA ---------- */
+    .tarjetas {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 24px;
+    }
+	.una-linea {
+  white-space: nowrap;   /* evita que el texto baje de línea */
+  text-align: center;
+  font-size: 16px;
+}
+
+    .tarjeta {
+      background: #fff;
+      border-radius: 22px;
+      padding: 28px 22px;
+      text-align: center;
+      border: 3px solid var(--oscuro);
+      box-shadow: 6px 6px 0 var(--naranja);
+      transition: transform .2s, box-shadow .2s;
+    }
+
+    .tarjeta:hover {
+      transform: translate(-3px, -3px);
+      box-shadow: 9px 9px 0 var(--rojo);
+    }
+
+    .tarjeta .emoji { font-size: 60px; display: block; margin-bottom: 8px; }
+
+    .tarjeta h3 { font-size: 24px; margin-bottom: 6px; }
+
+    .tarjeta p { font-size: 15px; color: #5b4a3a; margin-bottom: 14px; }
+
+    .precio {
+      display: inline-block;
+      background: var(--rojo);
+      color: #fff;
+      font-family: "Baloo 2", Arial, sans-serif;
+      font-weight: 800;
+      font-size: 22px;
+      padding: 4px 18px;
+      border-radius: 999px;
+    }
+
+    /* ---------- PROMOCIONES ---------- */
+    .fondo-rojo {
+      background: linear-gradient(135deg, var(--rojo), var(--rojo-oscuro));
+      max-width: none;
+    }
+
+    .fondo-rojo .contenedor { max-width: 1100px; margin: 0 auto; }
+
+    .fondo-rojo h2 { color: #fff; }
+    .fondo-rojo .subtitulo { color: #ffe3c2; }
+
+    .promo {
+      background: var(--naranja);
+      color: var(--oscuro);
+      border-radius: 22px;
+      padding: 26px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      border: 3px solid var(--oscuro);
+    }
+
+    .promo .emoji { font-size: 56px; }
+    .promo h3 { font-size: 26px; }
+    .promo .precio { background: var(--oscuro); margin-top: 8px; }
+
+    .grid-promos {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 22px;
+    }
+
+    /* ---------- VIDEO ---------- */
+    .video-caja {
+      max-width: 860px;
+      margin: 0 auto;
+      border: 4px solid var(--oscuro);
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 10px 10px 0 var(--naranja);
+      background: #000;
+      aspect-ratio: 16 / 9;
+    }
+
+    .video-caja video,
+    .video-caja iframe {
+      width: 100%;
+      height: 100%;
+      display: block;
+      border: 0;
+      object-fit: cover;
+    }
+
+    /* ---------- NOSOTROS ---------- */
+    .nosotros {
+      display: flex;
+      gap: 40px;
+      align-items: center;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .nosotros img {
+      width: min(300px, 80vw);
+      border-radius: 50%;
+      border: 6px solid var(--naranja);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, .25);
+      background: #7d5f56;
+    }
+
+    .nosotros .texto { flex: 1; min-width: 280px; max-width: 540px; }
+    .nosotros .texto h2 { text-align: left; }
+    .nosotros .texto p { margin-bottom: 14px; font-size: 17px; }
+
+    .datos {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 8px;
+    }
+
+    .dato {
+      background: var(--oscuro);
+      color: var(--naranja-claro);
+      padding: 10px 18px;
+      border-radius: 14px;
+      font-weight: 700;
+    }
+
+    /* ---------- CONTACTO ---------- */
+    .contacto-caja {
+      background: #fff;
+      border: 3px solid var(--oscuro);
+      border-radius: 26px;
+      padding: 36px 26px;
+      box-shadow: 8px 8px 0 var(--celeste);
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 24px;
+      text-align: center;
+    }
+
+    .contacto-caja .emoji { font-size: 40px; }
+    .contacto-caja h3 { font-size: 22px; margin: 6px 0; }
+
+    .btn-whats {
+      background: #25d366;
+      color: #fff;
+      box-shadow: 0 6px 0 #168a43;
+      margin-top: 36px;
+    }
+
+    .centro { text-align: center; }
+
+    /* ---------- PIE ---------- */
+    footer {
+      background: var(--oscuro);
+      color: #ddd;
+      text-align: center;
+      padding: 28px 20px;
+      font-size: 15px;
+    }
+
+    footer strong { color: var(--naranja-claro); }
+
+    /* ---------- BOTÓN SUBIR ---------- */
+    .btn-subir {
+      position: fixed;
+      right: 24px;
+      bottom: 24px;
+      width: 56px;
+      height: 56px;
+      border: none;
+      border-radius: 50%;
+      background: var(--azul);
+      color: #fff;
+      font-size: 26px;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, .3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .3s, transform .2s, background .2s;
+      z-index: 900;
+    }
+
+    .btn-subir.visible { opacity: 1; pointer-events: auto; }
+    .btn-subir:hover { background: #0d47a1; transform: translateY(-3px); }
+
+    /* ---------- CELULAR ---------- */
+    @media (max-width: 760px) {
+      .hamburguesa { display: block; }
+
+      .menu-flotante { border-radius: 28px; flex-wrap: wrap; }
+
+      .menu-flotante ul {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        padding: 10px 0 6px;
+      }
+
+      .menu-flotante ul.abierto { display: flex; }
+
+      .menu-flotante ul a { text-align: center; padding: 12px; }
+
+      .hero { text-align: center; }
+      .hero-texto { max-width: 100%; }
+      .botones { justify-content: center; }
+      .nosotros .texto h2 { text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- MUSICA DE FONDO -->
+<audio id="musicaFondo" loop>
+    <source src="fondo.mp3" type="audio/mpeg">
+</audio>
+
+<button id="btnMusica" onclick="alternarMusica()"
+style="
+position: fixed;
+bottom: 25px;
+left: 25px;
+z-index: 2000;
+background: #f7931e;
+color: #222;
+border: 3px solid #222;
+border-radius: 50px;
+padding: 12px 18px;
+font-weight: bold;
+cursor: pointer;">
+🎵 Activar música
+</button>
+
+<script>
+const musica = document.getElementById("musicaFondo");
+const botonMusica = document.getElementById("btnMusica");
+
+function alternarMusica() {
+    if (musica.paused) {
+        musica.play();
+        botonMusica.innerHTML = "🔇 Pausar música";
+    } else {
+        musica.pause();
+        botonMusica.innerHTML = "🎵 Activar música";
+    }
+}
+</script>
+
+  <!-- MENÚ FLOTANTE -->
+  <nav class="menu-flotante" id="menu">
+    <a href="#inicio" class="marca">
+      <!-- Cambia logo.img por el nombre de tu logo -->
+      <img src="logo1.img" alt="Logo La Mega Papa">
+      <span class="logo-texto">La Mega Papa</span>
+    </a>
+
+    <button class="hamburguesa" id="btnMenu" aria-label="Abrir menú">&#9776;</button>
+
+    <ul id="enlaces">
+      <li><a href="#inicio" class="activo">Inicio</a></li>
+      <li><a href="#carta">Menú</a></li>
+      <li><a href="#video">Video</a></li>
+      <li><a href="#nosotros">Nosotros</a></li>
+      <li><a href="#contacto">Contacto</a></li>
+    </ul>
+  </nav>
+
+  <!-- INICIO -->
+  <header class="hero" id="inicio">
+    <div class="hero-texto">
+      <span class="etiqueta">&#127839; Papas con el sabor propio</span>
+      <h1 aria-label="La Mega Papa"><span class="typed" id="tipeado" data-texto="La Mega Papa"></span><span class="cursor"></span></h1>
+      <script>
+        // Al abrir la página se escribe "La Mega Papa" solo; después la palabra
+        // "Papa" se borra y se vuelve a escribir en bucle.
+        (function () {
+          var el = document.getElementById("tipeado");
+          var fijo = "La Mega ";
+          var palabra = "Papa";
+          var completo = fijo + palabra;
+          var n = 0, j = palabra.length;
+
+          el.textContent = "";
+
+          function escribirTodo() {
+            n++;
+            el.textContent = completo.slice(0, n);
+            if (n < completo.length) setTimeout(escribirTodo, 150);   // velocidad al escribir (ms)
+            else setTimeout(borrar, 2000);                            // pausa con el título completo
+          }
+
+          function borrar() {
+            j--;
+            el.textContent = fijo + palabra.slice(0, j);
+            if (j > 0) setTimeout(borrar, 90);                        // velocidad al borrar (ms)
+            else setTimeout(escribir, 400);
+          }
+
+          function escribir() {
+            j++;
+            el.textContent = fijo + palabra.slice(0, j);
+            if (j < palabra.length) setTimeout(escribir, 150);
+            else setTimeout(borrar, 2000);
+          }
+
+          setTimeout(escribirTodo, 400);                              // pausa antes de empezar (ms)
+        })();
+      </script>
+      <p>Papas crocantes, presas jugosas y huevo frito sobre un plato que sí te llena. Ven con hambre y sal feliz.</p>
+      <div class="botones">
+        <a href="#carta" class="btn btn-principal">Ver el menú</a>
+      </div>
+    </div>
+
+    <div class="hero-imagen">
+      <!-- Cambia banner.jpg por el nombre de tu imagen naranja -->
+      <img src="imagen.img" alt="Mega Papas">
+    </div>
+  </header>
+
+  <!-- MENÚ DE COMIDA -->
+  <section class="seccion" id="carta">
+    <h2>Nuestro menú</h2>
+    <p class="subtitulo">Todo se prepara al momento.con productos frescos y buenos</p>
+
+    <div class="tarjetas">
+      <article class="tarjeta">
+     <img src="clasica.jpg" alt="Papas clásicas" style="width:100%; height:180px; object-fit:contain;">
+        <h3>Papas clásicas</h3>
+        <p>Papas fritas crocantes con tus salsas favoritas.</p>
+        <span class="precio">$2.00</span>
+      </article>
+
+      <article class="tarjeta">
+        <img src="pollo.jpg" alt="Papas clásicas" style="width:100%; height:180px; object-fit:contain;">
+        <h3>Mega Papa con pollo</h3>
+        <p>Papas, presa de pollo crocante y ensalada fresca.</p>
+        <span class="precio">$4.50</span>
+      </article>
+
+      <article class="tarjeta">
+<img src="papa.jpg" alt="Papas clásicas" style="width:100%; height:180px; object-fit:contain;">
+        <h3>Papa con huevo</h3>
+        <p>Papas con huevo frito, arroz y un toque de ají.</p>
+        <span class="precio">$3.50</span>
+      </article>
+
+      <article class="tarjeta">
+        <img src="sal.jpg" alt="Papas clásicas" style="width:100%; height:180px; object-fit:contain;">
+        <h3>Salchipapas</h3>
+        <p>Papas con salchicha y todas las salsas de la casa.</p>
+        <span class="precio">$3.00</span>
+      </article>
+
+    <center> <p class="una-linea">Tambien ofrecemos bebidas a su gusto sin ningun costo eso va por parte de la casa la bebida varia su sabor cada dia</p></center>
+    </div>
+  </section>
+
+  <!-- VIDEO -->
+  <section class="seccion" id="video">
+    <h2>Así preparamos tus papas</h2>
+    <p class="subtitulo">Mira cómo es La Mega Papa por dentro: papas doradas, presas crocantes y mucho sabor.</p>
+
+    <div class="video-caja">
+      <!-- OPCIÓN 1: video guardado en tu carpeta (renómbralo como video.mp4) -->
+      <video controls preload="metadata" poster="banner.jpg">
+        <source src="video.mp4" type="video/mp4">
+        Tu navegador no puede reproducir este video.
+      </video>
+
+      <!-- OPCIÓN 2: video de YouTube.
+           Borra el bloque <video> de arriba y quita los símbolos de comentario de esta línea.
+           Cambia CODIGO_DEL_VIDEO por lo que va después de "v=" en el enlace de YouTube.
+      <iframe src="https://www.youtube.com/embed/CODIGO_DEL_VIDEO" title="La Mega Papa" allowfullscreen></iframe>
+      -->
+    </div>
+  </section>
+
+  
+  <!-- NOSOTROS -->
+  <section class="seccion" id="nosotros">
+    <div class="nosotros">
+      <img src="menu.jpg" alt="Logo La Mega Papa">
+
+      <div class="texto">
+        <h2>Quiénes somos</h2>
+        <p>En <strong>La Mega Papa</strong> creemos que unas buenas papas pueden alegrarte el día. Cocinamos con ingredientes frescos y porciones generosas, siempre con una sonrisa.</p>
+        <p>Nuestro lema es simple: platos grandes, sabor de verdad y precios justos.</p>
+
+        <div class="datos">
+          <span class="dato">&#127839; Papas frescas</span>
+          <span class="dato">&#128293; Hecho al momento</span>
+          <span class="dato">&#128154; Porciones grandes</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACTO -->
+  <section class="seccion" id="contacto">
+    <h2>Contáctanos</h2>
+    <p class="subtitulo">Escríbenos y haz tu pedido. Cambia estos datos por los reales.</p>
+<body>
+    <div class="contacto-caja">
+      <div>
+        <span class="emoji">&#128205;</span>
+        <h3>Dirección</h3>
+   <iframe
+        src="https://maps.google.com/maps?q=Garc%C3%ADa+Moreno+y+Bol%C3%ADvar,+Quisapincha,+Ambato,+Ecuador&output=embed"
+        width="300"
+        height="250"
+        style="border:0;"
+        allowfullscreen=""
+        loading="lazy">
+    </iframe>
+	<p>Estamos ubicados en las calles García Moreno y Bolívar,
+  en la esquina del parque central de Quisapincha.</p>
+      </div>
+	  </body>
+      <div>
+        <span class="emoji">&#128337;</span>
+        <h3>Horario</h3>
+        <p>Lunes a domingo<br>10:00 - 20 :00</p>
+		<img src="atencion.jpg" width="300" height="250">
+      </div>
+      <div>
+        <span class="emoji">&#128241;</span>
+        <h3>Teléfono</h3>
+        <p>098 891 3761</p>
+		<img src="telefono.jpg" width="300" height="250">
+      </div>
+    </div>
+
+  <footer>
+    <p>&copy; 2026 <strong>La Mega Papa</strong>. Todos los derechos reservados.</p>
+  </footer>
+
+  <!-- BOTÓN SUBIR -->
+  <button class="btn-subir" id="btnSubir" aria-label="Volver arriba">&#8593;</button>
+
+  <script>
+    const btnSubir = document.getElementById("btnSubir");
+    const btnMenu = document.getElementById("btnMenu");
+    const enlaces = document.getElementById("enlaces");
+    const links = enlaces.querySelectorAll("a");
+    const secciones = document.querySelectorAll("header[id], section[id]");
+
+    // Mostrar/ocultar botón subir
+    window.addEventListener("scroll", () => {
+      btnSubir.classList.toggle("visible", window.scrollY > 200);
+      marcarActivo();
+    });
+
+    btnSubir.addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    // Menú en celular
+    btnMenu.addEventListener("click", () => {
+      enlaces.classList.toggle("abierto");
+    });
+
+    links.forEach(a => a.addEventListener("click", () => {
+      enlaces.classList.remove("abierto");
+    }));
+
+    // Resaltar la sección actual en el menú
+    function marcarActivo() {
+      let actual = "inicio";
+      secciones.forEach(sec => {
+        if (window.scrollY >= sec.offsetTop - 140) actual = sec.id;
+      });
+      links.forEach(a => {
+        a.classList.toggle("activo", a.getAttribute("href") === "#" + actual);
+      });
+    }
+
+    marcarActivo();
+  </script>
+
+</body>
+</html>
